@@ -22,7 +22,7 @@ export class Events {
     this.query = query;
   }
 
-  getEventsFromGroup(group: string): Promise<Response> {
+  getEventsFromGroup(group: string): Promise<Array<Object>> {
     const url = urljoin(group, 'events', `?has_ended=false&no_later_than=${getISODate(this.getNoLaterDate())}`);
     return this.query.query(url);
   }

@@ -17,6 +17,7 @@
     "jest": true
   },
   "rules": {
+    "max-len": ["error", 120],
     "import/extensions" : 0,
     "dot-location": ["error", "property"]
   },

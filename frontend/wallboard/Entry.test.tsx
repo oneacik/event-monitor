@@ -22,9 +22,9 @@ it('Entry Component renders properly', () => {
   const entry: Element | undefined = container?.children[0];
 
   const extractText = (x: string) =>
-    entry?.getElementsByClassName(x)[0].textContent;
+    entry?.querySelector(`.${x}`)?.textContent;
 
-  expect(extractText('group')).toBe('hs3');
+  //expect(extractText('group')).toBe('hs3');
   expect(extractText('location')).toBe('HS');
   expect(extractText('title')).toBe('xD');
   expect(extractText('date')).toBe('17-02 21:37');

@@ -1,23 +1,29 @@
 /* eslint-disable */
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
 module.exports = {
     node: {
         __dirname: false
     },
-    entry: './src/wallboard/Entry.tsx',
+    entry: './frontend/wallboard/App.tsx',
     mode: 'development',
-    target: 'node', // change to web if web lol
+    target: 'web', // change to web if web lol
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.js'
     },
+    plugins: [new HtmlWebpackPlugin()],
     resolve: {
         extensions: ['.js', '.ts', '.tsx']
     },
     module: {
         rules: [
+            {
+                test: /\.css$/i,
+                use: ['style-loader', 'css-loader'],
+            },
             {
                 enforce: 'pre',
                 test: [/\.(tsx?)|(m?js)$/],

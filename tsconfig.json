@@ -15,6 +15,7 @@
     "jsx": "react"
   },
   "include": [
-    "src" // <-- change this to where your source files are
+    "frontend"
+    // <-- change this to where your source files are
   ]
 }
