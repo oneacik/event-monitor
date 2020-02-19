@@ -21,7 +21,7 @@ app.get('/', (req, res) => res.send('Hello World!'));
 app.get('/api', (req, res) => {
   const events = new Events();
   const fail = 500;
-  events.getEventsFromGroups(['hs3city'])
+  events.getEventsFromGroups(['hs3city', 'Elixir-Tricity'])
     .then(json => res.send(json))
     .catch(() => res.status(fail));
 

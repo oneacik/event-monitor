@@ -22,7 +22,7 @@ export class Events {
     this.query = query;
   }
 
-  getEventsFromGroups(groups: [string]): Promise<Array<Event>> {
+  getEventsFromGroups(groups: Array<string>): Promise<Array<Event>> {
     return Promise.all(
       groups.map(
         group => this.getRawEventsFromGroup(group)
