@@ -13,7 +13,6 @@ export default class Query {
 
 
   query(url: string): Promise<Array<any>> {
-    console.warn(urljoin(this.base, url));
     return this.fetcher(urljoin(this.base, url))
       .then((response: Response) => response.json())
       .catch((err: any) => console.error(err));

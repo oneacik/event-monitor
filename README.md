@@ -1,29 +1,14 @@
-# create-bulky-start
+# Event Monitor
 
-## Introduction
+## What it does?
 
-Bulky start currently copies itself.
-It is great starter for coding cli for node.
-It contains:
-- webpack
-- babel
-- linter
-- typescript
-- javascript
-- example for initializer and usage
+It displays events from meetup.com (currently for hs3city and elixir-meetup).
 
-## Problems on the way
+## How to start it?
 
-### Add your script to "bin" in package.json
+`npm start`
+That's it!
 
-Initializer is just a script executed npm init smth => npx create-smth.
-Just follow tutorials on creating cli apps in npm.
+App will be accessible on 'localhost:3000/app'.
 
-### Remember about #!/usr/bin/env node
-
-Without it the npm init will tell you that your script doesn't exist.
-I already created PR for this.
-
-## Ending
-
-Goodluck.
+Use nvm to set your node version if it is not working.
