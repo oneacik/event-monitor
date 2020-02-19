@@ -1,7 +1,6 @@
 .idea/
 node_modules/
 packages.json
-packages-lock.json
 dist/index.html
 dist/bundle.js
 bin/server.js
