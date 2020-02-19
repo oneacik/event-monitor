@@ -2,11 +2,11 @@
 
 import urljoin from 'url-join';
 
-import {getISODate} from '../util/TimeUtil';
+import {getISODate} from '../../frontend/util/TimeUtil';
 
-import Query from './Query';
+import {Event} from '../../common/Event';
 
-import {Event} from './Event';
+import Query from '../../common/Query';
 
 
 export class Events {
@@ -22,7 +22,19 @@ export class Events {
     this.query = query;
   }
 
-  getEventsFromGroup(group: string): Promise<Array<Object>> {
+  getEventsFromGroups(groups: [string]): Promise<Array<Event>> {
+    return Promise.all(
+      groups.map(
+        group => this.getRawEventsFromGroup(group)
+          .then(events =>
+            events.map(event => this.convertFetchEventToEvent(event)))))
+      .then(eventsOfEvents => eventsOfEvents.flat())
+      // @ts-ignore
+      .then(events => events.sort((a, b) => (a.date - b.date)));
+    //TODO: MOCK query FOR TESTS
+  }
+
+  getRawEventsFromGroup(group: string): Promise<Array<any>> {
     const url = urljoin(group, 'events', `?has_ended=false&no_later_than=${getISODate(this.getNoLaterDate())}`);
     return this.query.query(url);
   }

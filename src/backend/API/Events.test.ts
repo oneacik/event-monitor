@@ -60,7 +60,7 @@ test('returned noLaterDate is correct', () => {
 
 it('returned events follow API', async () => {
   const events = new Events(undefined, 60 * 60 * 24 * 30);
-  const returnedEvents = await events.getEventsFromGroup('hs3city');
+  const returnedEvents = await events.getRawEventsFromGroup('hs3city');
   expect(returnedEvents).toBeInstanceOf(Array);
 });
 

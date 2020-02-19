@@ -1,7 +1,7 @@
 import React from 'react';
 
 // eslint-disable-next-line no-unused-vars
-import {Event} from '../API/Event';
+import {Event} from '../../common/Event';
 
 import {Entry} from './Entry';
 

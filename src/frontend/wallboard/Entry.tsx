@@ -10,7 +10,7 @@ import ListGroupItem from 'react-bootstrap/ListGroupItem';
 
 import 'bootstrap/dist/css/bootstrap.css';
 // eslint-disable-next-line no-unused-vars
-import {Event} from '../API/Event';
+import {Event} from '../../common/Event';
 import {getFullDate, getWeekDate} from '../util/TimeUtil';
 
 import './Entry.css';
