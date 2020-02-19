@@ -6,12 +6,15 @@ module.exports = {
     node: {
         __dirname: false
     },
-    entry: './src/index.js',
+    entry: './src/wallboard/Entry.tsx',
     mode: 'development',
     target: 'node', // change to web if web lol
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.js'
+    },
+    resolve: {
+        extensions: ['.js', '.ts', '.tsx']
     },
     module: {
         rules: [

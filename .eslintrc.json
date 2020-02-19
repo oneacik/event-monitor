@@ -17,7 +17,8 @@
     "jest": true
   },
   "rules": {
-    "import/extensions" : 0
+    "import/extensions" : 0,
+    "dot-location": ["error", "property"]
   },
   "overrides": [
     {

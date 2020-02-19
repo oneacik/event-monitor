@@ -1,22 +1,12 @@
 import React from 'react';
 
+// eslint-disable-next-line no-unused-vars
+import {Event} from '../API/Event';
 import {getFullDate, getWeekDate} from '../util/TimeUtil';
 
-export class Entry extends React.Component<{
-  title: string,
-  date: Date,
-  group: string,
-  location: string
-}> {
+export class Entry extends React.Component<Event> {
 
-  constructor(
-    props: {
-      title: string,
-      date: Date,
-      group: string,
-      location: string
-    }
-  ) {
+  constructor(props: Event) {
     super(props);
   }
 
