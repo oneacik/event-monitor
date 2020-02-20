@@ -16,7 +16,7 @@ app.use('/app/', express.static(path.join(__dirname, '../dist'), {
   }
 }));
 
-app.get('/', (req, res) => res.send('Hello World!'));
+app.get('/', (req, res) => res.redirect('/app'));
 
 app.get('/api', (req, res) => {
   const events = new Events();
@@ -28,4 +28,4 @@ app.get('/api', (req, res) => {
 });
 
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`Wallboard running on port: ${port}!`));
