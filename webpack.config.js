@@ -1,7 +1,7 @@
 /* eslint-disable */
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const NodemonPlugin = require('nodemon-webpack-plugin');
 
 const common = x => ({
   ...x,
@@ -65,6 +65,9 @@ const backend = common({
     path: path.resolve(__dirname, 'bin'),
     filename: 'server.js'
   },
+  plugins: [
+    new NodemonPlugin(),
+  ]
 });
 
 
