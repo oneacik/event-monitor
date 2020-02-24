@@ -1,6 +1,18 @@
 /* eslint-disable no-magic-numbers, camelcase */
 import {Events} from './Events';
 
+const eventCreate = (eventName = 'name', local_time = '18:00', venue = 'hs3', group = 'hs3', local_date = '2020-02-19') => ({
+  name: eventName,
+  local_time,
+  local_date,
+  group: {
+    name: group
+  },
+  venue: {
+    name: venue
+  }
+});
+
 const sampleEventJSON = {
   created: 1578480494000,
   duration: 7200000,
@@ -44,7 +56,7 @@ const sampleEventJSON = {
     timezone: 'Europe/Warsaw'
   },
   link: 'https://www.meetup.com/hs3city/events/cltrmrybcdbzb/',
-  description: '<p>In this study group, we will be working through the Fast.ai deep learning course "Deep Learning from the Foundations":<br/><a href="https://course.fast.ai/part2" class="linkified">https://course.fast.ai/part2</a></p> <p>This meetup is free and open to all. We recommend it to people who are already involved in Deep Learning, understand it\'s practical applications and want to get deeper understanding. Finishing Part 1 of Fast.ai course is sufficient.</p> <p>We meet every 2 weeks, on Wednesday, 18:00-20:00.<br/>The whole course will have at least 7 meetings - depending on our pace.</p> <p>More info and schedule on wiki:<br/><a href="https://wiki.hs3.pl/wydarzenia/datascience#kurs_deep_learning_from_the_foundations_-_fastai" class="linkified">https://wiki.hs3.pl/wydarzenia/datascience#kurs_deep_learning_from_the_foundations_-_fastai</a></p> <p>---</p> <p>Welcome to Fast.ai Part 2: Deep Learning from the Foundations, which shows how to build a state of the art deep learning model from scratch.<br/>It takes you all the way from the foundations of implementing matrix multiplication and back-propagation, through to high performance mixed-precision training, to the latest neural network architectures and learning techniques, and everything in between.<br/>It covers many of the most important academic papers that form the foundations of modern deep learning, using “code-first” teaching, where each method is implemented from scratch in python and explained in detail (in the process, we’ll discuss many important software engineering techniques too).<br/>Before starting this part, it\'s nice to have completed Fast.ai Part 1: Practical Deep Learning for Coders.</p> <p>The first five lessons use Python, PyTorch, and the fastai library; the last two lessons use Swift for TensorFlow, and are co-taught with Chris Lattner, the original creator of Swift, clang, and LLVM.</p> ',
+  description: 'description',
   visibility: 'public',
   member_pay_fee: false
 };
@@ -74,4 +86,26 @@ test('convertFetchEventToEvent converts currently', () => {
     .toBe(new Date('2020-02-19T18:00').toString());
   expect(returnedEvent.group).toBe('Hacker:space Trójmiasto');
   expect(returnedEvent.location).toBe('Hackerspace Trójmiasto');
+});
+
+test('getEventsFromGroups queries and sorts correctly', async () => {
+  const query: Query = {async query(url:string) {
+    if (url.match(/hs3city\/./)) {
+      return [eventCreate('d', '17:00'), eventCreate('b', '15:00')];
+    } else
+    if (url.match(/hswaw\/./)) {
+      return [eventCreate('a', '14:00'), eventCreate('c', '16:00')];
+    }
+    console.log(url);
+    return null;
+  }};
+
+  const events = new Events(query);
+  const returnedEvents = await events.getEventsFromGroups(['hs3city', 'hswaw']);
+
+  expect(returnedEvents[0].title).toBe('a');
+  expect(returnedEvents[1].title).toBe('b');
+  expect(returnedEvents[2].title).toBe('c');
+  expect(returnedEvents[3].title).toBe('d');
+
 });
