@@ -66,7 +66,10 @@ const backend = common({
     filename: 'server.js'
   },
   plugins: [
-    new NodemonPlugin(),
+    new NodemonPlugin({
+      watch: path.resolve('./src/backend'),
+      ext: 'js,ts,json,twig',
+    }),
   ]
 });
 
