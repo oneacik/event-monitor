@@ -3,10 +3,14 @@ import * as path from 'path';
 // eslint-disable-next-line no-unused-vars
 import express, {Express} from 'express';
 
+import {TwingEnvironment, TwingLoaderFilesystem} from 'twing';
+
 import {Events} from './API/Events';
 
 const app: Express = express();
 const port = 3000;
+const loader = new TwingLoaderFilesystem('src/backend/templates');
+const twing = new TwingEnvironment(loader);
 
 app.use(express.json());
 
@@ -24,7 +28,12 @@ app.get('/api', (req, res) => {
   events.getEventsFromGroups(['hs3city', 'Elixir-Tricity'])
     .then(json => res.send(json))
     .catch(() => res.status(fail));
+});
 
+app.get('/twing', (req, res) => {
+  twing.render('index.twig', {name: 'World'}).then(output => {
+    res.end(output);
+  });
 });
 
 
