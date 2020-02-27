@@ -10,7 +10,8 @@
     "url": "https://gitlab.com/oneacik/js-ts-starter/issues"
   },
   "dependencies": {
-    "identity-obj-proxy": "^3.0.0"
+    "identity-obj-proxy": "^3.0.0",
+    "twing": "^4.0.3"
   },
   "description": "It displays events from meetup.com.",
   "devDependencies": {
