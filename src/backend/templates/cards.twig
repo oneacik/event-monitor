@@ -26,6 +26,7 @@
 		text-decoration: none;
 	}
 
+
 	.cards{
 		display: grid;
 		justify-content: center;
@@ -35,16 +36,14 @@
 
 		grid-template-columns: repeat(2, 1fr);
 		grid-template-rows: repeat(5, 1fr);
-		
-		/* grid-template-columns: 90.17mm 90.17mm;
-		grid-template-rows: repeat(5, 50.29mm); */
+
 	}
 	.card{
 		width: 100%;
-		height: 100%;
-		border: 1px solid red;
+		height: 43mm;
+		/* border: 1px solid red; */
 		padding: 10mm;
-		font-size: 0.8rem;
+		z-index: 5;
 	}
 
 	.logo{
@@ -53,6 +52,23 @@
 
 	.red{
 		color: red;
+	}
+
+	.card-list {
+		font-size: 0.4rem;
+		padding: 2mm;
+	}
+
+	.event-list dt{
+		float: left;
+    clear: left;
+		width: 11mm;
+
+		color: red;
+	}
+	.event-list dd{
+		color: black;
+		font-weight: bold;
 	}
 	</style>
 </head>
@@ -68,13 +84,29 @@
 			{% endfor %}
 		</div>
 	</section>
-	<section class="sheet padding-10mm cards">
-		{% for i in range(low=1, high=10, step=1) %}
-		<div class="card">
-			{# <img class="logo" src="/static/logo.png" ></img> #}
-			Event list placeholder				
+
+	<section class="sheet padding-10mm">
+		<div class="cards">
+			{% for i in range(low=1, high=10, step=1) %}
+			<div class="card card-list">
+				<dl class="event-list">
+					{% set last_date = "" %}
+					{% for event in events %}
+						{% set date = event.date|date("d.m, H:i") %}
+
+						{% if date != last_date %}
+							<dt>{{ date }}</dt>
+						{% else %}
+							<dt>&nbsp;</dt>
+						{% endif %}
+						
+						<dd>{{ event.title }}</dd>
+						{% set last_date = date %}
+					{% endfor %}
+				</dl>
+			</div>
+			{% endfor %}
 		</div>
-		{% endfor %}
 	</section
 </body>
 </html>
