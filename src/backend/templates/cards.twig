@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Hackerspace Cards</title>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+
+	<style>
+	*, *:before, *:after {
+		box-sizing: border-box;
+		padding: 0;
+		margin: 0;
+	}
+	html,body{
+		height: 100vh;
+		font-family: 'Roboto';
+	}
+	
+	page { size: A4 }
+
+	a, a:visited{
+		color: black;
+		text-decoration: none;
+	}
+
+	.cards{
+		display: grid;
+		justify-content: center;
+
+		grid-auto-flow: row;
+		grid-gap: 9.65mm;
+
+		grid-template-columns: repeat(2, 1fr);
+		grid-template-rows: repeat(5, 1fr);
+		
+		/* grid-template-columns: 90.17mm 90.17mm;
+		grid-template-rows: repeat(5, 50.29mm); */
+	}
+	.card{
+		width: 100%;
+		height: 100%;
+		border: 1px solid red;
+		padding: 10mm;
+		font-size: 0.8rem;
+	}
+
+	.logo{
+		width: 100%;
+	}
+
+	.red{
+		color: red;
+	}
+	</style>
+</head>
+<body class="A4">
+	<section class="sheet padding-10mm">
+		<div class="cards">
+			{% for i in range(low=1, high=10, step=1) %}
+			<div class="card">
+			<img class="logo" src="/static/logo.png" ></img>
+					<a href="https://hs3.pl">https://hs3.pl</a><br/>
+					<span class="red">Dołącz do nas</span> <a href="https://hs3.pl/join">https://hs3.pl/join</a>
+			</div>
+			{% endfor %}
+		</div>
+	</section>
+	<section class="sheet padding-10mm cards">
+		{% for i in range(low=1, high=10, step=1) %}
+		<div class="card">
+			{# <img class="logo" src="/static/logo.png" ></img> #}
+			Event list placeholder				
+		</div>
+		{% endfor %}
+	</section
+</body>
+</html>
