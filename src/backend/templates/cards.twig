@@ -13,6 +13,8 @@
 	{% set cut_lines_divs = (2*cols+1) * (2*rows+1) %}
 	{% set cards_offset = '9.65mm' %}
 	{% set global_font_size = '16px' %}
+	{% set events_columns = 1 %}
+	{% set events_font_size = '0.46em' %}
 
 	<style>
 	:root {
@@ -94,14 +96,19 @@
 	}
 
 	.card-list {
-		font-size: 0.46em;
+		font-size: {{events_font_size}};
 		padding: 2mm;
 	}
 
+	.event-list {
+		display: grid;
+		grid-template-columns: repeat({{ events_columns }}, {{ events_columns }}fr 5fr);
+	}
+
 	.event-list dt{
-		float: left;
+		{# float: left;
     clear: left;
-		width: 12mm;
+		width: 12mm; #}
 
 		color: red;
 	}
