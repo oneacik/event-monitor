@@ -8,7 +8,17 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css">
 	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
 
+	{% set cols = 2 %}
+	{% set rows = 5 %}
+	{% set cut_lines_divs = (2*cols+1) * (2*rows+1) %}
+	{% set cards_offset = '9.65mm' %}
+	{% set global_font_size = '16px' %}
+
 	<style>
+	:root {
+		font-size: {{ global_font_size }};
+	}
+
 	*, *:before, *:after {
 		box-sizing: border-box;
 		padding: 0;
@@ -33,10 +43,10 @@
 		height: 100%;
 		display: grid;
 		
-		grid-template-columns: repeat(2, 9.65mm 1fr) 9.65mm;
-		grid-template-rows: repeat(5, 9.65mm 1fr) 9.65mm;
+		grid-template-columns: repeat({{ cols }}, {{ cards_offset }} 1fr) {{ cards_offset }};
+		grid-template-rows: repeat({{ rows }}, {{ cards_offset }} 1fr) {{ cards_offset }};
 
-		z-index: 1
+		z-index: 1;
 	}
 	.cut-lines div{
 		width: 100%;
@@ -46,8 +56,8 @@
 
 	.cut-lines-cover {
 		position: absolute;
-		left: 4.825mm;
-		top: 4.825mm;
+		left: calc({{ cards_offset }} / 2);
+		top: calc({{ cards_offset }} / 2);
 
 		width: 200.35mm;
 		height: 286.35mm;
@@ -62,10 +72,10 @@
 		height: 100%;
 
 		grid-auto-flow: row;
-		grid-gap: 9.65mm;
+		grid-gap: {{ cards_offset }};
 
-		grid-template-columns: repeat(2, 1fr);
-		grid-template-rows: repeat(5, 1fr);
+		grid-template-columns: repeat({{ cols }}, 1fr);
+		grid-template-rows: repeat({{ rows }}, 1fr);
 
 	}
 	.card{
@@ -84,7 +94,7 @@
 	}
 
 	.card-list {
-		font-size: 0.46rem;
+		font-size: 0.46em;
 		padding: 2mm;
 	}
 
@@ -104,13 +114,13 @@
 <body class="A4">
 	<section class="sheet padding-10mm">
     <div class="cut-lines">
-			{% for i in range(low=1, high=55, step=1) %}
+			{% for i in range(low=1, high=cut_lines_divs, step=1) %}
 				<div></div>
 			{% endfor %}
 		</div>
 		<div class="cut-lines-cover"></div>
 		<div class="cards">
-			{% for i in range(low=1, high=10, step=1) %}
+			{% for i in range(low=1, high=(rows*cols), step=1) %}
 			<div class="card">
 			<img class="logo" src="/static/logo.png" ></img>
 					<a href="https://hs3.pl">https://hs3.pl</a><br/>
@@ -122,13 +132,13 @@
 
 	<section class="sheet padding-10mm">
     <div class="cut-lines">
-			{% for i in range(low=1, high=55, step=1) %}
+			{% for i in range(low=1, high=cut_lines_divs, step=1) %}
 				<div></div>
 			{% endfor %}
 		</div>
 		<div class="cut-lines-cover"></div>
 		<div class="cards">
-			{% for i in range(low=1, high=10, step=1) %}
+			{% for i in range(low=1, high=(rows*cols), step=1) %}
 			<div class="card card-list">
 				<dl class="event-list">
 					{% set last_date = "" %}
