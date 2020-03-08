@@ -69,13 +69,35 @@ function renderCards(req: Request, res: Response) {
 app.get('/cards', renderCards);
 
 app.get('/calendar', (req, res) => {
-  const events = new Events();
+  const startMonthNumber = req.query.month || (new Date().getMonth());
+  // eslint-disable-next-line no-magic-numbers
+  const periodInSeconds = 60 * 60 * 24 * 30 * 2; // two months
+  const startDate = new Date();
+  startDate.setMonth(startMonthNumber);
+  startDate.setDate(1);
+  startDate.setHours(0);
+  startDate.setMinutes(0);
+  startDate.setSeconds(0);
+
+  const events = new Events(undefined, startDate, periodInSeconds);
   const fail = 500;
   events
     .getEventsFromGroups(eventGroups)
-    .then(json => twing.render('calendar.twig', {events: json}).then(output => {
-      res.end(output);
-    }))
+    .then(json => {
+      const firstMonth: any[] = [];
+      const secondMonth: any[] = [];
+      json.forEach(event => {
+        if (event.date.getMonth() === startMonthNumber) {
+          firstMonth.push(event);
+        } else {
+          secondMonth.push(event);
+        }
+      });
+
+      twing.render('calendar.twig', {eventsFirst: firstMonth, eventsSecond: secondMonth}).then(output => {
+        res.end(output);
+      });
+    })
     .catch(() => res.status(fail));
 });
 
