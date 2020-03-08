@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Hackerspace Cards</title>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+
+	{% set cols = cols|default(2) %}
+	{% set rows = rows|default(5) %}
+	{% set cut_lines_divs = (2*cols+1) * (2*rows+1) %}
+	{% set cards_offset = '9.65mm' %}
+	{% set global_font_size = '16px' %}
+	{% set events_columns = 1 %}
+	{% set events_font_size = '0.46em' %}
+
+	<style>
+	:root {
+		font-size: {{ global_font_size }};
+	}
+
+	*, *:before, *:after {
+		box-sizing: border-box;
+		padding: 0;
+		margin: 0;
+	}
+	body{
+		font-family: 'Roboto';
+	}
+	
+	page { size: A2 }
+
+  body.A2           .sheet { width: 420mm; height: 594mm }
+  body.A2.landscape .sheet { width: 595mm; height: 419mm }
+  /** Fix for Chrome issue #273306 **/
+  @media print {
+            body.A2.landscape { width: 595mm }
+    body.A2  body.A3.landscape { width: 420mm }
+  }
+
+
+	</style>
+</head>
+<body class="A2">
+	<section class="sheet padding-10mm">
+	</section>
+</body>
+</html>

@@ -68,4 +68,15 @@ function renderCards(req: Request, res: Response) {
 
 app.get('/cards', renderCards);
 
+app.get('/calendar', (req, res) => {
+  const events = new Events();
+  const fail = 500;
+  events
+    .getEventsFromGroups(eventGroups)
+    .then(json => twing.render('calendar.twig', {events: json}).then(output => {
+      res.end(output);
+    }))
+    .catch(() => res.status(fail));
+});
+
 app.listen(port, () => console.log(`Wallboard running on port: ${port}!`));
