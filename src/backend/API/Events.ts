@@ -41,7 +41,7 @@ export class Events {
     const params : {[index: string]:any} = {
       has_ended: 'false',
       no_earlier_than: getISODate(this.startDate),
-      no_late_than: getISODate(this.getNoLaterDate(this.startDate))
+      no_later_than: getISODate(this.getNoLaterDate(this.startDate))
     };
 
     let params_string = '?';
