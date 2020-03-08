@@ -8,8 +8,8 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css">
 	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
 
-	{% set cols = 2 %}
-	{% set rows = 5 %}
+	{% set cols = cols|default(2) %}
+	{% set rows = rows|default(5) %}
 	{% set cut_lines_divs = (2*cols+1) * (2*rows+1) %}
 	{% set cards_offset = '9.65mm' %}
 	{% set global_font_size = '16px' %}

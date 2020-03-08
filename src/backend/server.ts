@@ -3,7 +3,7 @@ import * as path from 'path';
 import {TwingEnvironment, TwingLoaderFilesystem} from 'twing';
 
 // eslint-disable-next-line no-unused-vars
-import express, {Express} from 'express';
+import express, {Express, Request, Response} from 'express';
 
 import {Events} from './API/Events';
 
@@ -45,15 +45,27 @@ app.get('/api', (req, res) => {
     .catch(() => res.status(fail));
 });
 
-app.get('/cards', (req, res) => {
+function renderCards(req: Request, res: Response) {
   const events = new Events();
   const fail = 500;
+  let [cols, rows] = [null, null];
+
+  if (req.query.cols) {
+    cols = req.query.cols;
+  }
+
+  if (req.query.rows) {
+    rows = req.query.rows;
+  }
+
   events
     .getEventsFromGroups(eventGroups)
-    .then(json => twing.render('cards.twig', {events: json}).then(output => {
+    .then(json => twing.render('cards.twig', {cols, rows, events: json}).then(output => {
       res.end(output);
     }))
     .catch(() => res.status(fail));
-});
+}
+
+app.get('/cards', renderCards);
 
 app.listen(port, () => console.log(`Wallboard running on port: ${port}!`));
