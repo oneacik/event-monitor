@@ -3,33 +3,11 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Hackerspace Cards</title>
+	<title>Hackerspace Calendar</title>
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css">
 	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-
-	{% set cols = cols|default(2) %}
-	{% set rows = rows|default(5) %}
-	{% set cut_lines_divs = (2*cols+1) * (2*rows+1) %}
-	{% set cards_offset = '9.65mm' %}
-	{% set global_font_size = '16px' %}
-	{% set events_columns = 1 %}
-	{% set events_font_size = '0.46em' %}
-
-	<style>
-	:root {
-		font-size: {{ global_font_size }};
-	}
-
-	*, *:before, *:after {
-		box-sizing: border-box;
-		padding: 0;
-		margin: 0;
-	}
-	body{
-		font-family: 'Roboto';
-	}
-	
+	<style>	
 	page { size: A2 }
 
   body.A2           .sheet { width: 420mm; height: 594mm }
@@ -40,11 +18,114 @@
     body.A2  body.A3.landscape { width: 420mm }
   }
 
+	*, *:before, *:after {
+		box-sizing: border-box;
+		padding: 0;
+		margin: 0;
+	}
+	body{
+		font-family: 'Roboto';
+	}
 
+  .logo {
+    width: 150mm;
+  }
+
+  .header {
+    width: 100%;
+    height: 200mm;
+    font-size: 2em;
+
+    background: url('/static/hs-hackaton.jpg');
+    background-size:     cover;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+  }
+
+  .header-box{
+    background: rgba(255,255,255,0.8);
+    padding: 10mm 20mm;
+    margin-bottom: 20mm;
+  }
+
+  .title {
+    text-align: center;
+    font-size: 2em;
+    margin: 15mm;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.6em;
+  }
+
+  .date-day {
+    color: red;
+    border-bottom:0.1em solid red;
+    font-weight: bold;
+    font-size: 0.8em;
+    margin-top: 8mm;
+    margin-bottom: 3mm;
+  }
+
+  .event-list {
+    padding: 0 1em;
+  }
+
+  .event {
+    text-align: left;
+    padding-left: 10mm;
+  }
+
+  .event .date {
+    font-weight: bold;
+  }
 	</style>
 </head>
 <body class="A2">
 	<section class="sheet padding-10mm">
+    <div class="header">
+      <div class="header-box">
+        <img class="logo" src="/static/logo.png" ></img>
+      </div>
+    </div>
+    <div class="title">
+      <h1>Wydarzenia w marcu i kwietniu</h1>
+    </div>
+    <div class="content">
+      <div class="event-list">
+        {% set last_date = "" %}
+        {% for event in events %}
+          {% set date = event.date|date("d.m.Y") %}
+
+          {% if date != last_date %}
+            <div class="date-day">{{ date }}</div>
+          {% endif %}
+          
+          <div class="event"><span class="date">{{ event.date|date("H:i") }}</span> {{ event.title }}</div>
+          {% set last_date = date %}
+        {% endfor %}
+      </div>
+      <div class="event-list">
+        {% set last_date = "" %}
+        {% for event in events %}
+          {% set date = event.date|date("d.m.Y") %}
+
+          {% if date != last_date %}
+            <div class="date-day">{{ date }}</div>
+          {% endif %}
+          
+          <div class="event"><span class="date">{{ event.date|date("H:i") }}</span> {{ event.title }}</div>
+          {% set last_date = date %}
+        {% endfor %}
+      </div>
+    </div>
 	</section>
 </body>
 </html>
