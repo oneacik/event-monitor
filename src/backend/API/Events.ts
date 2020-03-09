@@ -53,9 +53,6 @@ export class Events {
     }
 
     const url = urljoin(group, 'events', params_string);
-
-    console.log(url);
-
     return this.query.query(url);
   }
 
