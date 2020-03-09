@@ -95,7 +95,12 @@ app.get('/calendar', (req, res) => {
         }
       });
 
-      const templateVariables = {eventsFirst: firstMonth, eventsSecond: secondMonth, polishDayNames};
+      const templateVariables = {
+        eventsFirst: firstMonth,
+        eventsSecond: secondMonth,
+        showFooter: true,
+        polishDayNames
+      };
 
       twing.render('calendar.twig', templateVariables).then(output => {
         res.end(output);
