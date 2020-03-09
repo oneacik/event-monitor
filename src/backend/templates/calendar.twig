@@ -23,9 +23,19 @@
 		padding: 0;
 		margin: 0;
 	}
-	body{
+	body {
 		font-family: 'Roboto';
 	}
+
+  a, a:visited {
+    color: red;
+    text-decoration: none;
+  }
+
+  section {
+    display: flex;
+    flex-direction: column;
+  }
 
   .logo {
     width: 150mm;
@@ -53,7 +63,8 @@
 
   .title {
     text-align: center;
-    font-size: 1.9em;
+    font-size: 2.1em;
+    letter-spacing: 0.15em;
     margin: 15mm;
     text-transform: uppercase;
   }
@@ -63,13 +74,13 @@
     flex-direction: row;
     justify-content: center;
     align-items: flex-start;
-    font-size: 1.5em;
+    font-size: 1.4em;
+    flex-grow: 1;
   }
 
   .date-day {
     color: red;
     border-bottom:0.1em solid red;
-    font-weight: bold;
     font-size: 1.3em;
     margin-top: 8mm;
     margin-bottom: 3mm;
@@ -90,6 +101,11 @@
     font-weight: bold;
     margin-right: 0.5em;
   }
+
+  .footer {
+    font-size: 1.3em;
+    text-align: justify;
+  }
 	</style>
 </head>
 <body class="A2">
@@ -103,32 +119,24 @@
       <h1>Kalendarz Wydarzeń</h1>
     </div>
     <div class="content">
+      {% for events in [eventsFirst,eventsSecond] %}
       <div class="event-list">
         {% set last_date = "" %}
-        {% for event in eventsFirst %}
+        {% for event in events %}
           {% set date = event.date|date("d.m") %}
 
           {% if date != last_date %}
-            <div class="date-day">{{ date }}</div>
+            <div class="date-day"><b>{{ date }}</b> {{ polishDayNames[event.date.getDay()] }}</div>
           {% endif %}
           
           <div class="event"><span class="date">{{ event.date|date("H:i") }}</span> {{ event.title }}</div>
           {% set last_date = date %}
         {% endfor %}
       </div>
-      <div class="event-list">
-        {% set last_date = "" %}
-        {% for event in eventsSecond %}
-          {% set date = event.date|date("d.m") %}
-
-          {% if date != last_date %}
-            <div class="date-day">{{ date }}</div>
-          {% endif %}
-          
-          <div class="event"><span class="date">{{ event.date|date("H:i") }}</span> {{ event.title }}</div>
-          {% set last_date = date %}
-        {% endfor %}
-      </div>
+      {% endfor %}
+    </div>
+    <div class="footer">
+      Hackespace Trójmiasto / <a href="https://hs3.pl/">hs3.pl/</a> / Aleja Wojska Polskiego 41, 80-268 Gdańsk, lokal schowany za budynkiem mieszkalnym Wojska Polskiego 39. Drugie szare drzwi.
     </div>
 	</section>
 </body>

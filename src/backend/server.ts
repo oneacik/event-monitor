@@ -13,6 +13,7 @@ const loader = new TwingLoaderFilesystem('src/backend/templates');
 const twing = new TwingEnvironment(loader);
 
 const eventGroups = ['hs3city', 'Elixir-Tricity'];
+const polishDayNames = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'];
 
 app.use(express.json());
 
@@ -94,7 +95,9 @@ app.get('/calendar', (req, res) => {
         }
       });
 
-      twing.render('calendar.twig', {eventsFirst: firstMonth, eventsSecond: secondMonth}).then(output => {
+      const templateVariables = {eventsFirst: firstMonth, eventsSecond: secondMonth, polishDayNames};
+
+      twing.render('calendar.twig', templateVariables).then(output => {
         res.end(output);
       });
     })
