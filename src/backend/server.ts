@@ -98,7 +98,9 @@ app.get('/calendar', (req, res) => {
       const templateVariables = {
         eventsFirst: firstMonth,
         eventsSecond: secondMonth,
-        showFooter: true,
+        showFooter: !req.query.hideFooter,
+        // eslint-disable-next-line no-magic-numbers
+        fontSize: req.query.fontSize || 1.4,
         polishDayNames
       };
 
