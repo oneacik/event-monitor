@@ -81,16 +81,14 @@
 
 	}
 	.card{
-		width: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+
 		padding: 8mm;
 		z-index: 5;
 	}
 
-	.front-card {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-	}
 
 	.logo{
 		width: 100%;
@@ -108,6 +106,7 @@
 	.event-list {
 		display: grid;
 		grid-template-columns: repeat({{ events_columns }}, {{ events_columns }}fr 5fr);
+		margin: auto;
 	}
 
 	.event-list dd{
