@@ -82,13 +82,18 @@
 	}
 	.card{
 		width: 100%;
-		padding: 5mm;
+		padding: 8mm;
 		z-index: 5;
+	}
+
+	.front-card {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
 	}
 
 	.logo{
 		width: 100%;
-		margin-bottom: 9mm;
 	}
 
 	.red{
@@ -124,10 +129,12 @@
 		<div class="cut-lines-cover"></div>
 		<div class="cards">
 			{% for i in range(low=1, high=(rows*cols), step=1) %}
-			<div class="card">
-			<img class="logo" src="/static/logo.png" ></img>
+			<div class="card front-card">
+			<img class="logo" src="/static/logo.png"></img>
+				<p>
 					<a href="https://hs3.pl">https://hs3.pl</a><br/>
 					<span class="red">Dołącz do nas</span> <a href="https://hs3.pl/join">https://hs3.pl/join</a>
+				</p>
 			</div>
 			{% endfor %}
 		</div>
