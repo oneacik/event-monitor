@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Hackerspace Cards</title>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+
+	{% set cols = cols|default(2) %}
+	{% set rows = rows|default(5) %}
+	{% set cut_lines_divs = (2*cols+1) * (2*rows+1) %}
+	{% set cards_offset = '9.65mm' %}
+	{% set global_font_size = '16px' %}
+	{% set events_columns = 1 %}
+	{% set events_font_size = '0.46em' %}
+
+	<style>
+	:root {
+		font-size: {{ global_font_size }};
+	}
+
+	*, *:before, *:after {
+		box-sizing: border-box;
+		padding: 0;
+		margin: 0;
+	}
+	body{
+		font-family: 'Roboto';
+	}
+	
+	page { size: A4 }
+
+	a, a:visited{
+		color: black;
+		text-decoration: none;
+	}
+	.cut-lines{
+		position: absolute;
+		left: 0;
+		top: 0;
+
+		width: 100%;
+		height: 100%;
+		display: grid;
+		
+		grid-template-columns: repeat({{ cols }}, {{ cards_offset }} 1fr) {{ cards_offset }};
+		grid-template-rows: repeat({{ rows }}, {{ cards_offset }} 1fr) {{ cards_offset }};
+
+		z-index: 1;
+	}
+	.cut-lines div{
+		width: 100%;
+		height: 100%;
+		border: 1px solid gray;
+	}
+
+	.cut-lines-cover {
+		position: absolute;
+		left: calc({{ cards_offset }} / 2);
+		top: calc({{ cards_offset }} / 2);
+
+		width: 200.35mm;
+		height: 286.35mm;
+
+		background-color: white;
+		z-index: 2;
+	}
+
+	.cards{
+		display: grid;
+		justify-content: center;
+		height: 100%;
+
+		grid-auto-flow: row;
+		grid-gap: {{ cards_offset }};
+
+		grid-template-columns: repeat({{ cols }}, 1fr);
+		grid-template-rows: repeat({{ rows }}, 1fr);
+
+	}
+	.card{
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+
+		padding: 8mm;
+		z-index: 5;
+	}
+
+
+	.logo{
+		width: 100%;
+	}
+
+	.red{
+		color: red;
+	}
+
+	.card-list {
+		font-size: {{events_font_size}};
+		padding: 2mm;
+	}
+
+	.event-list {
+		display: grid;
+		grid-template-columns: repeat({{ events_columns }}, {{ events_columns }}fr 5fr);
+		margin: auto;
+	}
+
+	.event-list dd{
+		color: black;
+		font-weight: bold;
+	}
+	.event-list dt{
+		color: red;
+	}
+	</style>
+</head>
+<body class="A4">
+	<section class="sheet padding-10mm">
+    <div class="cut-lines">
+			{% for i in range(low=1, high=cut_lines_divs, step=1) %}
+				<div></div>
+			{% endfor %}
+		</div>
+		<div class="cut-lines-cover"></div>
+		<div class="cards">
+			{% for i in range(low=1, high=(rows*cols), step=1) %}
+			<div class="card front-card">
+			<img class="logo" src="/static/logo.png"></img>
+				<p>
+					<a href="https://hs3.pl">https://hs3.pl</a><br/>
+					<span class="red">Dołącz do nas</span> <a href="https://hs3.pl/join">https://hs3.pl/join</a>
+				</p>
+			</div>
+			{% endfor %}
+		</div>
+	</section>
+
+	<section class="sheet padding-10mm">
+    <div class="cut-lines">
+			{% for i in range(low=1, high=cut_lines_divs, step=1) %}
+				<div></div>
+			{% endfor %}
+		</div>
+		<div class="cut-lines-cover"></div>
+		<div class="cards">
+			{% for i in range(low=1, high=(rows*cols), step=1) %}
+			<div class="card card-list">
+				<dl class="event-list">
+					{% set last_date = "" %}
+					{% for event in events %}
+						{% set date = event.date|date("d.m, H:i") %}
+
+						{% if date != last_date %}
+							<dt>{{ date }}</dt>
+						{% else %}
+							<dt>&nbsp;</dt>
+						{% endif %}
+						
+						<dd>{{ event.title }}</dd>
+						{% set last_date = date %}
+					{% endfor %}
+				</dl>
+			</div>
+			{% endfor %}
+		</div>
+	</section>
+</body>
+</html>
