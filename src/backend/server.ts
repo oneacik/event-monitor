@@ -2,9 +2,9 @@ import * as path from 'path';
 
 // eslint-disable-next-line no-unused-vars
 import express, {Express, Request, Response} from 'express';
+import HttpStatus from 'http-status-codes';
 
 import calendar from './calendar';
-
 import {Events} from './API/Events';
 
 const app: Express = express();
@@ -34,11 +34,10 @@ app.get('/', (req, res) => res.redirect('/app'));
 
 app.get('/api', (req, res) => {
   const events = new Events();
-  const fail = 500;
   events
     .getEventsFromGroups(['hs3city', 'Elixir-Tricity'])
     .then(json => res.send(json))
-    .catch(() => res.status(fail));
+    .catch(() => res.status(HttpStatus.INTERNAL_SERVER_ERROR));
 });
 
 app.use('/', calendar);
