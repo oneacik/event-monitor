@@ -35,14 +35,10 @@ router.get('/cards', (req, res) => {
 
 router.get('/calendar', (req, res) => {
   const startMonthNumber = req.query.month || (new Date().getMonth());
+  const startYearNumber = req.query.year || (new Date().getFullYear());
   // eslint-disable-next-line no-magic-numbers
   const periodInSeconds = 60 * 60 * 24 * 30 * 2; // two months
-  const startDate = new Date();
-  startDate.setMonth(startMonthNumber);
-  startDate.setDate(1);
-  startDate.setHours(0);
-  startDate.setMinutes(0);
-  startDate.setSeconds(0);
+  const startDate = new Date(startYearNumber, startMonthNumber);
 
   const events = new Events(undefined, startDate, periodInSeconds);
   const fail = 500;
