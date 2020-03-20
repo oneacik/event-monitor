@@ -130,7 +130,7 @@
     </div>
     <div class="content">
       <div>
-        {% for day, eventsInDay in eventsFirst %}
+        {% for eventsInDay in eventsFirst %}
           <div class="first-chunk">
             <div class="date-day">
               <b>{{ eventsInDay[0].date|date('d.m') }}</b>
@@ -145,7 +145,7 @@
           </div>
         {% endfor %}
 
-        {% for day, eventsInDay in eventsSecond %}
+        {% for eventsInDay in eventsSecond %}
           <div class="second-chunk">
             <div class="date-day">
               <b>{{ eventsInDay[0].date|date('d.m') }}</b>
