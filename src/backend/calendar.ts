@@ -1,6 +1,10 @@
 import {Router} from 'express';
 import {TwingEnvironment, TwingLoaderFilesystem} from 'twing';
+import {groupBy} from 'lodash';
 import HttpStatus from 'http-status-codes';
+
+// eslint-disable-next-line no-unused-vars
+import {Event} from '../common/Event';
 
 import {Events} from './API/Events';
 
@@ -12,6 +16,24 @@ const twing = new TwingEnvironment(loader);
 const polishDayNames = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'];
 const eventGroups = ['hs3city', 'Elixir-Tricity'];
 const defaultFontSize = 1.4;
+
+function prepareEventForTemplate(events: Event[], startMonth: Number) {
+  const firstMonth: Event[] = [];
+  const secondMonth: Event[] = [];
+
+  events.forEach(event => {
+    if (event.date.getMonth() === startMonth) {
+      firstMonth.push(event);
+    } else {
+      secondMonth.push(event);
+    }
+  });
+
+  return {
+    firstMonth: groupBy(firstMonth, event => event.date.getDate()),
+    secondMonth: groupBy(secondMonth, event => event.date.getDate())
+  };
+}
 
 router.get('/cards', (req, res) => {
   const events = new Events();
@@ -45,21 +67,12 @@ router.get('/calendar', (req, res) => {
   events
     .getEventsFromGroups(eventGroups)
     .then(json => {
-      const firstMonth: any[] = [];
-      const secondMonth: any[] = [];
-      json.forEach(event => {
-        if (event.date.getMonth() === startMonthNumber) {
-          firstMonth.push(event);
-        } else {
-          secondMonth.push(event);
-        }
-      });
+      const preparedEvents = prepareEventForTemplate(json, startMonthNumber);
 
       const templateVariables = {
-        eventsFirst: firstMonth,
-        eventsSecond: secondMonth,
+        eventsFirst: preparedEvents.firstMonth,
+        eventsSecond: preparedEvents.secondMonth,
         showFooter: !req.query.hideFooter,
-        // eslint-disable-next-line no-magic-numbers
         fontSize: req.query.fontSize || defaultFontSize,
         polishDayNames
       };

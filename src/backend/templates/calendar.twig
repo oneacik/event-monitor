@@ -70,12 +70,26 @@
   }
 
   .content {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-start;
-    font-size: {{ fontSize }}rem;
     flex-grow: 1;
+    font-size: {{ fontSize }}rem;
+  }
+
+  .content > div {
+    display: grid;
+    justify-content: center;
+
+    grid-gap: 0 1em;
+		grid-template-columns: repeat(2, 1fr);
+    grid-auto-flow: column dense;
+  }
+
+  .first-chunk {
+    grid-column-start: 1;
+    grid-column-end: 2;
+  }
+  .second-chunk {
+    grid-column-start: 2;
+    grid-column-end: 3;
   }
 
   .date-day {
@@ -84,10 +98,6 @@
     font-size: 1.3em;
     margin-top: 8mm;
     margin-bottom: 3mm;
-  }
-
-  .event-list {
-    padding: 0 1em;
   }
 
   .event {
@@ -119,21 +129,37 @@
       <h1>Kalendarz Wydarzeń</h1>
     </div>
     <div class="content">
-      {% for events in [eventsFirst,eventsSecond] %}
-      <div class="event-list">
-        {% set last_date = "" %}
-        {% for event in events %}
-          {% set date = event.date|date("d.m") %}
+      <div>
+        {% for day, eventsInDay in eventsFirst %}
+          <div class="first-chunk">
+            <div class="date-day">
+              <b>{{ eventsInDay[0].date|date('d.m') }}</b>
+              {{ polishDayNames[eventsInDay[0].date.getDay()] }}
+            </div>
+            {% for event in eventsInDay %}
+              <div class="event">
+                <span class="date">{{ event.date|date("H:i") }}</span>
+                {{ event.title }}
+              </div>
+            {% endfor %}
+          </div>
+        {% endfor %}
 
-          {% if date != last_date %}
-            <div class="date-day"><b>{{ date }}</b> {{ polishDayNames[event.date.getDay()] }}</div>
-          {% endif %}
-          
-          <div class="event"><span class="date">{{ event.date|date("H:i") }}</span> {{ event.title }}</div>
-          {% set last_date = date %}
+        {% for day, eventsInDay in eventsSecond %}
+          <div class="second-chunk">
+            <div class="date-day">
+              <b>{{ eventsInDay[0].date|date('d.m') }}</b>
+              {{ polishDayNames[eventsInDay[0].date.getDay()] }}
+            </div>
+            {% for event in eventsInDay %}
+              <div class="event">
+                <span class="date">{{ event.date|date("H:i") }}</span>
+                {{ event.title }}
+              </div>
+            {% endfor %}
+          </div>
         {% endfor %}
       </div>
-      {% endfor %}
     </div>
     {% if showFooter %}
     <div class="footer">
