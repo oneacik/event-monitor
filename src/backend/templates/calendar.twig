@@ -130,34 +130,24 @@
     </div>
     <div class="content">
       <div>
-        {% for eventsInDay in eventsFirst %}
-          <div class="first-chunk">
-            <div class="date-day">
-              <b>{{ eventsInDay[0].date|date('d.m') }}</b>
-              {{ polishDayNames[eventsInDay[0].date.getDay()] }}
-            </div>
-            {% for event in eventsInDay %}
-              <div class="event">
-                <span class="date">{{ event.date|date("H:i") }}</span>
-                {{ event.title }}
-              </div>
-            {% endfor %}
-          </div>
-        {% endfor %}
+        {% for eventsChunk in [eventsFirst,eventsSecond] %}
+          {% set chunkClass = loop.index0 == 0 ? 'first' : 'second' %}
 
-        {% for eventsInDay in eventsSecond %}
-          <div class="second-chunk">
-            <div class="date-day">
-              <b>{{ eventsInDay[0].date|date('d.m') }}</b>
-              {{ polishDayNames[eventsInDay[0].date.getDay()] }}
-            </div>
-            {% for event in eventsInDay %}
-              <div class="event">
-                <span class="date">{{ event.date|date("H:i") }}</span>
-                {{ event.title }}
+          {% for eventsInDay in eventsChunk %}
+            <div class="{{chunkClass}}-chunk">
+              <div class="date-day">
+                <b>{{ eventsInDay[0].date|date('d.m') }}</b>
+                {{ polishDayNames[eventsInDay[0].date.getDay()] }}
               </div>
-            {% endfor %}
-          </div>
+              {% for event in eventsInDay %}
+                <div class="event">
+                  <span class="date">{{ event.date|date("H:i") }}</span>
+                  {{ event.title }}
+                </div>
+              {% endfor %}
+            </div>
+          {% endfor %}
+          
         {% endfor %}
       </div>
     </div>
