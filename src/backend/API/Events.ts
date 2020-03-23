@@ -2,6 +2,8 @@
 
 import urljoin from 'url-join';
 
+import queryString from 'query-string';
+
 import {getISODate} from '../../frontend/util/TimeUtil';
 
 import {Event} from '../../common/Event';
@@ -44,13 +46,7 @@ export class Events {
       no_later_than: getISODate(this.getNoLaterDate(this.startDate))
     };
 
-    let params_string = '?';
-    for (const param in params) {
-      if (params.hasOwnProperty(param)) {
-        const value : string = params[param];
-        params_string += `${param}=${value}&`;
-      }
-    }
+    const params_string = `?${queryString.stringify(params)}`;
 
     const url = urljoin(group, 'events', params_string);
     return this.query.query(url);
