@@ -2,6 +2,8 @@
 
 import urljoin from 'url-join';
 
+import queryString from 'query-string';
+
 import {getISODate} from '../../frontend/util/TimeUtil';
 
 import {Event} from '../../common/Event';
@@ -11,14 +13,17 @@ import Query from '../../common/Query';
 
 export class Events {
   private defaultPeriodInSeconds: number;
+  private startDate: Date;
   private query: Query;
 
   constructor(
     query: Query = new Query(),
+    startDate: Date = new Date(),
     // eslint-disable-next-line no-magic-numbers
     defaultPeriodInSeconds: number = 60 * 60 * 24 * 30 // a month
   ) {
     this.defaultPeriodInSeconds = defaultPeriodInSeconds;
+    this.startDate = startDate;
     this.query = query;
   }
 
@@ -35,7 +40,15 @@ export class Events {
   }
 
   getRawEventsFromGroup(group: string): Promise<Array<any>> {
-    const url = urljoin(group, 'events', `?has_ended=false&no_later_than=${getISODate(this.getNoLaterDate())}`);
+    const params : {[index: string]:any} = {
+      has_ended: 'false',
+      no_earlier_than: getISODate(this.startDate),
+      no_later_than: getISODate(this.getNoLaterDate(this.startDate))
+    };
+
+    const params_string = `?${queryString.stringify(params)}`;
+
+    const url = urljoin(group, 'events', params_string);
     return this.query.query(url);
   }
 
