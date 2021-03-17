@@ -51,7 +51,9 @@ const frontend = common({
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js'
   },
-  plugins: [new HtmlWebpackPlugin()]
+  plugins: [
+    new HtmlWebpackPlugin()
+  ]
 });
 
 const backend = common({
