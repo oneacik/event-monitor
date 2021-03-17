@@ -1,0 +1,43 @@
+name: "Prerender events"
+
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    -   cron: "0 4 * * *"
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    name: Prerender
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
+      - name: Run Prerender
+        run: |
+          REPO=$PWD
+          cd /tmp
+          git clone -q https://github.com/DoomHammer/event-monitor.git emon
+          cd $_
+          git checkout prerendering
+          ./build.sh
+          cp -R build ${REPO}/
+          cd $REPO
+          git add build
+
+      - name: Commit Changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Automated snapshot
